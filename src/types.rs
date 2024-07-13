@@ -31,9 +31,11 @@ impl<'a> SysCtl<'a> {
     }
 }
 
+/// Eatch lines of `sysctl.conf`.
 #[derive(Debug)]
 pub struct Line(pub String);
 
+/// A list of `sysctl.conf` paths.
 #[derive(Default)]
 pub struct SysCtlConfPaths(pub Vec<PathBuf>);
 impl IntoIterator for SysCtlConfPaths {
