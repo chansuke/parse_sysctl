@@ -1,5 +1,7 @@
 pub mod config;
 pub mod errors;
+pub mod extractor;
+pub mod loader;
 pub mod parser;
 pub mod types;
 

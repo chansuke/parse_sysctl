@@ -1,3 +1,4 @@
+//! Configuration related constants.
 /// Default paths for sysctl configuration files
 /// Belows are based on the sysctl.conf(5) — Linux manual page.
 /// https://man7.org/linux/man-pages/man5/sysctl.conf.5.html#FILES
