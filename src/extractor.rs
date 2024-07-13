@@ -1,15 +1,15 @@
 //! Extractor module
 use crate::errors::ParseSysctlError;
-use crate::types::Line;
+use crate::types::{Line, SysCtlConfPaths};
 use log::info;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::path::PathBuf;
 
 /// Extracts each lines from `sysctl.conf` files.
-pub(crate) fn extract_lines(files: Vec<PathBuf>) -> Result<Vec<Line>, ParseSysctlError> {
+pub(crate) fn extract_lines(paths: SysCtlConfPaths) -> Result<Vec<Line>, ParseSysctlError> {
     info!("Extracting each line from files");
-    let lines = files
+    let lines = paths
+        .0
         .into_iter()
         .filter_map(|path| {
             File::open(path).ok().map(|file| {

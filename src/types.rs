@@ -1,5 +1,6 @@
 //! Defining the types for the application.
 use std::collections::HashMap;
+use std::path::PathBuf;
 
 type Comment<'a> = &'a str;
 pub type KeyValue<'a> = HashMap<&'a str, &'a str>;
@@ -32,3 +33,20 @@ impl<'a> SysCtl<'a> {
 
 #[derive(Debug)]
 pub struct Line(pub String);
+
+#[derive(Default)]
+pub struct SysCtlConfPaths(pub Vec<PathBuf>);
+impl IntoIterator for SysCtlConfPaths {
+    type Item = PathBuf;
+    type IntoIter = std::vec::IntoIter<Self::Item>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl FromIterator<PathBuf> for SysCtlConfPaths {
+    fn from_iter<T: IntoIterator<Item = PathBuf>>(iter: T) -> Self {
+        SysCtlConfPaths(iter.into_iter().collect())
+    }
+}

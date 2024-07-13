@@ -9,8 +9,8 @@ use crate::loader::load_all_sysctl_files;
 use crate::types::{Line, SysCtl};
 
 fn load() -> Result<Vec<Line>, ParseSysctlError> {
-    let sysctl_files = load_all_sysctl_files(SYSCTL_PATHS)?;
-    extract_lines(sysctl_files)
+    let sysctl_paths = load_all_sysctl_files(SYSCTL_PATHS)?;
+    extract_lines(sysctl_paths)
 }
 
 pub(crate) fn parse() {
