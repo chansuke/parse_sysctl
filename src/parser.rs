@@ -6,10 +6,10 @@ use crate::config::SYSCTL_PATHS;
 use crate::errors::ParseSysctlError;
 use crate::extractor::extract_lines;
 use crate::loader::load_all_sysctl_files;
-use crate::types::{Line, SysCtl};
+use crate::types::{Line, RawFilePaths, SysCtl};
 
 fn load() -> Result<Vec<Line>, ParseSysctlError> {
-    let sysctl_paths = load_all_sysctl_files(SYSCTL_PATHS)?;
+    let sysctl_paths = load_all_sysctl_files(RawFilePaths(SYSCTL_PATHS))?;
     extract_lines(sysctl_paths)
 }
 

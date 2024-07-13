@@ -52,3 +52,6 @@ impl FromIterator<PathBuf> for SysCtlConfPaths {
         SysCtlConfPaths(iter.into_iter().collect())
     }
 }
+
+pub struct RawFilePath<'a>(pub &'a str);
+pub struct RawFilePaths<'a>(pub &'a [&'a str]);
