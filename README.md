@@ -1,5 +1,8 @@
 # parse_sysctl
 
+![test status](https://github.com/chansuke/parse_sysctl/actions/workflows/test.yml/badge.svg)
+![lint status](https://github.com/chansuke/parse_sysctl/actions/workflows/lint.yml/badge.svg)
+
 This is a simple Rust script to parse the `sysctl.conf` file.
 
 ## Usage
