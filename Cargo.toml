@@ -6,3 +6,12 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+anyhow = "1.0.86"
+env_logger = "0.11.3"
+glob = "0.3.1"
+log = "0.4.22"
+thiserror = "1.0.62"
+
+[[bin]]
+name = "parse_sysctl"
+path = "src/main.rs"
