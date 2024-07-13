@@ -57,7 +57,7 @@ pub fn parse() {
             for line in lines {
                 match SysCtl::parse_line(&line.0) {
                     Some(SysCtl::Comment(comment)) => {
-                        info!("Comment: {}", comment);
+                        info!("{}", comment);
                     }
                     Some(SysCtl::KeyValue(map)) => {
                         for (key, value) in map {
