@@ -25,3 +25,46 @@ pub(crate) fn load_all_sysctl_files(
         .collect();
     Ok(sysctl_files)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::Write;
+    use tempfile::NamedTempFile;
+
+    #[test]
+    fn test_load_sysctl_files() {
+        let mut file = NamedTempFile::new().unwrap();
+        writeln!(file, "net.ipv4.ip_forward = 1").unwrap();
+        writeln!(file, "# net.ipv4.ip_forward = 0").unwrap();
+        writeln!(file, "; net.ipv4.ip_forward = 0").unwrap();
+        file.flush().unwrap();
+
+        let paths = RawFilePath(file.path().to_str().unwrap());
+        let sysctl_files = load_sysctl_files(paths).unwrap();
+        assert_eq!(sysctl_files.0.len(), 1);
+    }
+
+    #[test]
+    fn test_load_all_sysctl_files() {
+        let mut file1 = NamedTempFile::new().unwrap();
+        writeln!(file1, "net.ipv4.ip_forward = 1").unwrap();
+        writeln!(file1, "# net.ipv4.ip_forward = 0").unwrap();
+        writeln!(file1, "; net.ipv4.ip_forward = 0").unwrap();
+        file1.flush().unwrap();
+
+        let mut file2 = NamedTempFile::new().unwrap();
+        writeln!(file2, "net.ipv4.ip_forward = 1").unwrap();
+        writeln!(file2, "# net.ipv4.ip_forward = 0").unwrap();
+        writeln!(file2, "; net.ipv4.ip_forward = 0").unwrap();
+        file2.flush().unwrap();
+
+        let binding = [
+            file1.path().to_str().unwrap(),
+            file2.path().to_str().unwrap(),
+        ];
+        let paths = RawFilePaths(&binding);
+        let sysctl_files = load_all_sysctl_files(paths).unwrap();
+        assert_eq!(sysctl_files.0.len(), 2);
+    }
+}

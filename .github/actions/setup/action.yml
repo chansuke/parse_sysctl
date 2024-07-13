@@ -1,0 +1,14 @@
+name: Setup
+description: Setup Rust toolchain
+
+runs:
+  using: composite
+  steps:
+    - name: Set Toolchain
+      uses: dtolnay/rust-toolchain@master
+      with:
+        profile: minimal
+        toolchain: stable
+        components: rustfmt, clippy
+        override: true
+

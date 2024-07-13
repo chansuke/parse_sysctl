@@ -39,3 +39,40 @@ pub(crate) fn parse() {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::types::SysCtlConfPaths;
+    use std::io::Write;
+    use tempfile::NamedTempFile;
+
+    #[test]
+    fn test_parse() {
+        let mut file = NamedTempFile::new().unwrap();
+        writeln!(file, "net.ipv4.ip_forward = 1").unwrap();
+        writeln!(file, "# net.ipv4.ip_forward = 0").unwrap();
+        writeln!(file, "; net.ipv4.ip_forward = 0").unwrap();
+        file.flush().unwrap();
+
+        let paths = SysCtlConfPaths(vec![file.path().to_path_buf()]);
+        let lines = extract_lines(paths).unwrap();
+        assert_eq!(lines.len(), 3);
+
+        for line in lines {
+            match SysCtl::parse_line(&line.0) {
+                Some(SysCtl::Comment(comment)) => {
+                    info!("{}", comment);
+                }
+                Some(SysCtl::KeyValue(map)) => {
+                    for (key, value) in map {
+                        info!("{} = {}", key, value);
+                    }
+                }
+                None => {
+                    info!("No matched");
+                }
+            }
+        }
+    }
+}
